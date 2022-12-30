@@ -1,0 +1,101 @@
+/*
+Theme Name: planty theme
+Description: Theme enfant créé dans le cadre du projet 6 chez OpenClassrooms
+Author: Willad3615 - Etudiant
+Author URI: www.planty.com
+Template: intentionally-blank
+Version: 0.1.0
+*/
+
+/*body{
+    --wp--preset--spacing--40 : 0px;
+    max-width: 1440px;
+}
+
+.nav-link{
+    text-decoration: none;
+}
+footer{
+    text-align: center;
+    background-color: #fff;
+    height: 30px;
+}
+
+header{
+    height: 40px;
+    padding: 18px 0px 20px 0px;
+    background-color: #fff;
+    vertical-align: middle;
+}
+
+header > nav{
+    float:right;
+}
+
+.nav-item > .nav-link{
+    margin-right: 61px;
+}
+
+#commander{
+    padding: 38px 61px 34px 61px;
+    justify-content: center;
+    text-align: center;
+    background-color: #DC9F96;
+    
+}
+
+#commander > a{
+    padding-top: 30px;
+    color: white;
+    margin-right: 0px;
+}
+
+#admin{
+    display: none;
+}
+
+.wp-site-blocks{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+span.elementor-button-content-wrapper{
+    align-items: center;
+    margin-right: 0px;
+}
+
+span.elementor.button-text{
+    text-align: center;
+    padding-right: 0px;
+}
+
+div.wp-block-template-part>.has-global-padding{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+footer.wp-block-template-part{
+    margin: 0px;
+}
+
+#logo{
+    width: 191.61px;
+    height: 18.87px;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul 
+
+{
+    list-style-type: none;
+}
+
+.wp-block-site-title{
+    display: none;
+}
+ .wp-block-navigation__responsive-container-content, .has-text-align-right{
+    visibility: hidden;
+ } 
