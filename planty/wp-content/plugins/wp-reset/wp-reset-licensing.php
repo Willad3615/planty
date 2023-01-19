@@ -47,9 +47,6 @@ if (false === class_exists('WF_Licensing')) {
       }
 
       if (empty($params['skip_hooks'])) {
-        register_activation_hook($this->plugin_file, array($this, 'activate_plugin'));
-        register_deactivation_hook($this->plugin_file, array($this, 'deactivate_plugin'));
-
         add_action('init', array($this, 'init'));
 
         add_action('wp_ajax_wf_licensing_' . $this->prefix . '_validate', array($this, 'validate_ajax'));
@@ -305,63 +302,6 @@ if (false === class_exists('WF_Licensing')) {
 
 
     /**
-     * Hook to plugin activation action.
-     * If there's a license key, try to activate & write response.
-     *
-     * @return void
-     */
-    function activate_plugin()
-    {
-      $license = $this->get_license();
-      if ($this->is_active() || empty($license['license_key'])) {
-        return false;
-      }
-
-      $tmp = $this->validate();
-      if ($tmp) {
-        $this->log('activating plugin, license activated');
-        return true;
-      } else {
-        $this->log('activating plugin, unable to activate license');
-        return false;
-      }
-    } // activate_plugin
-
-
-    /**
-     * Hook to plugin deactivation action.
-     * If there's a license key, try to deactivate & write response.
-     *
-     * @return void
-     */
-    function deactivate_plugin()
-    {
-      if (!$this->is_active()) {
-        return false;
-      }
-
-      $license = $this->get_license();
-      $result = $this->query_licensing_server('deactivate_license');
-
-      if (is_wp_error($result) || !is_array($result) || !isset($result['success']) || $result['success'] == false) {
-        $this->log('unable to deactivate license');
-
-        return false;
-      } else {
-        $license['error'] = '';
-        $license['name'] = '';
-        $license['valid_until'] = '';
-        $license['meta'] = '';
-        $license['last_check'] = 0;
-        $this->update_license($license);
-        $this->log('license deactivated');
-
-        return true;
-      }
-    } // deactivate_plugin
-
-
-    /**
      * Use when uninstalling (deleting) the plugin to clean up.
      *
      * @param string $prefix Same prefix as used when initialising the class.
@@ -458,7 +398,6 @@ if (false === class_exists('WF_Licensing')) {
         do_action('wf_licensing_' . $this->prefix . '_validate_ajax', $license_key, $result);
 
         if ($result == true) {
-          set_site_transient('update_plugins', null);
           wp_send_json_success($result);
         } else {
           wp_send_json_error($license);

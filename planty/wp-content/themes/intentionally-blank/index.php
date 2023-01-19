@@ -10,7 +10,7 @@
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
-<meta name="viewport" content="width=device-width, initial-scale=0.5">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>html,body{min-height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:13px;line-height:1.4em;margin:0}
 body{background-color: #f5f5f5; background-size:cover}
 .site-title-bg{background:rgba(0,0,0,0.5);color:#fff;padding:5px}
@@ -32,6 +32,9 @@ if ( $blank_description || is_customize_preview() ) :
 <?php endif; ?>
 </div></div>
 <?php the_custom_logo(); ?>
+<div class="elementor_content">
+<?php the_content(); ?>
+</div>
 <footer id="colophon" class="site-footer">
 	<?php if ( get_theme_mod( 'blank_show_copyright', true ) ) : ?>
 	<div class="site-info">

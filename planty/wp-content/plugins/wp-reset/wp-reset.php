@@ -3,7 +3,7 @@
   Plugin Name: WP Reset
   Plugin URI: https://wpreset.com/
   Description: Reset the entire site or just selected parts while reserving the option to undo by using snapshots.
-  Version: 1.96
+  Version: 1.97
   Requires at least: 4.0
   Requires PHP: 5.2
   Tested up to: 6.1
@@ -11,7 +11,7 @@
   Author URI: https://www.webfactoryltd.com/
   Text Domain: wp-reset
 
-  Copyright 2015 - 2022  WebFactory Ltd  (email: wpreset@webfactoryltd.com)
+  Copyright 2015 - 2023  WebFactory Ltd  (email: wpreset@webfactoryltd.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License, version 2, as
@@ -404,12 +404,14 @@ class WP_Reset
     );
 
     wp_enqueue_style('plugin-install');
+    wp_enqueue_style('wp-jquery-ui-dialog');
     wp_enqueue_style('wp-reset', $this->plugin_url . 'css/wp-reset.css', array(), $this->version);
     wp_enqueue_style('wp-reset-sweetalert2', $this->plugin_url . 'css/sweetalert2.min.css', array(), $this->version);
     wp_enqueue_style('wp-reset-tooltipster', $this->plugin_url . 'css/tooltipster.bundle.min.css', array(), $this->version);
 
     wp_enqueue_script('plugin-install');
     wp_enqueue_script('jquery-ui-tabs');
+    wp_enqueue_script('jquery-ui-dialog');
     wp_enqueue_script('wp-reset-sweetalert2', $this->plugin_url . 'js/wp-reset-libs.min.js', array('jquery'), $this->version, true);
     wp_enqueue_script('wp-reset', $this->plugin_url . 'js/wp-reset.js', array('jquery'), $this->version, true);
     wp_localize_script('wp-reset', 'wp_reset', $js_localize);
@@ -429,6 +431,9 @@ class WP_Reset
     wp_dequeue_style('file-manager__jquery-ui-css-theme');
     wp_dequeue_style('wpmegmaps-jqueryui');
     wp_dequeue_style('wp-botwatch-css');
+    wp_dequeue_style('uap_main_admin_style');
+    wp_dequeue_style('uap_font_awesome');
+    wp_dequeue_style('uap_jquery-ui.min.css');
   } // admin_enqueue_scripts
 
 
@@ -1429,7 +1434,7 @@ class WP_Reset
     echo '<li><a href="#tab-snapshots">' . esc_html(__('Snapshots', 'wp-reset')) . '</a></li>';
     echo '<li><a href="#tab-collections">' . esc_html(__('Collections', 'wp-reset')) . '</a></li>';
     echo '<li><a href="#tab-support">' . esc_html(__('Support', 'wp-reset')) . '</a></li>';
-    echo '<li><a href="#tab-pro">' . esc_html(__('PRO', 'wp-reset')) . '</a></li>';
+    echo '<li class="tab-pro"><a href="#tab-pro">' . esc_html(__('PRO', 'wp-reset')) . '</a></li>';
     echo '</ul>';
     echo '</div>'; // container
     echo '</nav>';
@@ -1474,6 +1479,23 @@ class WP_Reset
 
     echo '</form>';
 
+    echo '<div id="wpr-sidebar-ads">';
+    echo '<div id="wpr-ad">';
+    echo '<h3 class="textcenter"><b>Save time &amp; money with WP Reset PRO! First WP dev tool for non-devs.</b></h3>';
+    echo '<p class="textcenter"><a href="#" data-feature="sidebar-logo" class="button-pro-feature textcenter"><img style="max-width: 90%;" src="' . esc_url($this->plugin_url) . '/img/wp-reset-logo.png" alt="WP Reset PRO" title="WP Reset PRO"></a></p>';
+    echo '<ul class="plain-list">
+    <li>25+ Reset Tools</li>
+    <li>Plugins &amp; Themes Collections</li>
+    <li>Automatic Snapshots</li>
+    <li>WP Reset Cloud, Dropbox &amp; Google Drive support</li>
+    <li>Emergency Recovery Script</li>
+    <li>White-label Mode + Complete Plugin Rebranding</li>
+    <li>Licenses &amp; Sites Manager (remote SaaS dashboard)</li>
+    <li>Friendly email support from plugin developers</li>
+  </ul>';
+    echo '<p class="textcenter"><a href="#" data-feature="sidebar-button" class="button-pro-feature button button-primary">Get PRO now</a></p>';
+    echo '</div>';
+
     if (!defined('WPFSSL_OPTIONS_KEY')) {
       echo '<div id="wpfssl-ad">';
       echo '<h3 class="textcenter"><b>Problems with SSL certificate?<br>Moving a site from HTTP to HTTPS?<br>Mixed content giving you troubles?<br><br><u>Fix all SSL problems with one plugin!</u></b></h3>';
@@ -1481,6 +1503,7 @@ class WP_Reset
       echo '<p class="textcenter"><br><a href="#" class="install-wpfssl button button-primary">Install &amp; activate the free WP Force SSL plugin</a></p><p><a href="https://wordpress.org/plugins/wp-force-ssl/" target="_blank">WP Force SSL</a> is a free WP plugin maintained by the same team as this Maintenance plugin. It has <b>+150,000 users, 5-star rating</b>, and is hosted on the official WP repository.</p>';
       echo '</div>';
     }
+    echo '</div>';
 
     echo '</div>'; // wrap
   } // plugin_page
@@ -2111,74 +2134,8 @@ class WP_Reset
     echo '<p>More ways to reset your site, more tools, automatic snapshots, collections, email support and the emergency recover script - that\'s WP Reset PRO in a nutshell. The same <b>quality and easy-of-use</b> you experienced in the free version is very much a part of the PRO one, but extended and upgraded with more tools that will save you even more time.</p>';
     echo '<p>WP Reset PRO is aimed towards <b>webmasters, agencies, and everyone who buildsa a lot of WordPress sites</b>. It\'s much, much more than a "reset" tool. It\'s an easy way to start a new site, to test changes and to get out of the thickest jams. And thanks to its cloud features and the Dashboard it\'ll give you access to collections and snapshots on all the sites you\'re working on - instantly, without dragging any files along.</p>';
     echo '<p>Give WP Reset PRO a go. <b>It\'ll pay itself out in hours saved within the first few days!</b></p>';
-    echo '<p>If you already have a PRO license - <a href="#pro-activate" class="scrollto">activate it</a>.</p>';
-    echo '</div>';
-    echo '</div>';
-
-    echo '<div class="card">';
-    WP_Reset_Utility::wp_kses_wf($this->get_card_header(__('Pricing', 'wp-reset'), 'pro-pricing', array('collapse_button' => false)));
-    echo '<div class="card-body">';
-
-    echo '<table id="pricing-table" class="mb0">';
-    echo '<tr>';
-    echo '<th>&nbsp;</th>';
-    echo '<th nowrap>WP Reset<br>Free</th>';
-    echo '<th nowrap>WP Reset <span>PRO</span><br><b>Personal</b></th>';
-    echo '<th nowrap>WP Reset <span>PRO</span><br><b>Team</b></th>';
-    echo '<th nowrap>WP Reset <span>PRO</span><br><b>Agency</b></th>';
-    echo '</tr>';
-
-    echo '<tr class="pricing"><td>Lifetime Price</td>';
-    echo '<td>free</td>';
-    echo '<td>one-time payment<br><del>&nbsp;$99&nbsp;</del> <b>$49</b><br><a href="' . esc_url($personal_lifetime) . '" class="button button-primary" target="_blank">BUY NOW</a></td>';
-    echo '<td>one-time payment<br><del>&nbsp;$159&nbsp;</del> <b>$59</b><br><a href="' . esc_url($team_lifetime) . '" class="button button-primary" target="_blank">BUY NOW</a></td>';
-    echo '<td>one-time payment<br><del>&nbsp;$399&nbsp;</del> <b>$199</b><br><a href="' . esc_url($agency_lifetime) . '" class="button button-primary" target="_blank">BUY NOW</a></td>';
-    echo '</tr>';
-
-    $rows = array();
-    $rows['Options & Nuclear Reset'] = array(false, true, true, true);
-    $rows['Site Reset'] = array(true, true, true, true);
-    $rows['9 Basic Reset Tools'] = array(true, true, true, true);
-    $rows['17+ PRO Reset Tools'] = array(false, true, true, true);
-    $rows['Granular Content Reset Tools'] = array(false, true, true, true);
-    $rows['User Snapshots'] = array(true, true, true, true);
-    $rows['Automatic Snapshots'] = array(false, true, true, true);
-    $rows['Automatically Offload Snapshots to WP Reset Cloud, 2GB storage per site'] = array(false, true, true, true);
-    $rows['Automatically Offload Snapshots to Dropbox, Google Drive & pCloud'] = array(false, true, true, true);
-    $rows['Plugins & Themes Collections'] = array(false, true, true, true);
-    $rows['Emergency Recovery Script'] = array(false, true, true, true);
-    $rows['Email Support'] = array(false, true, true, true);
-    $rows['WP Reset Dashboard with License Manager'] = array(false, true, true, true);
-    $rows['White-Label & Rebranding'] = array(false, false, false, true);
-    $rows['Manage Snapshots & Collections for all sites in Dashboard'] = array(false, true, true, true);
-    $rows['Number of sites included in the license (localhosts are not counted & you can change sites)'] = array('&infin;', 1, 5, 100);
-    $rows['Number of WP Reset Cloud site licenses with 2GB storage per site (localhosts are not counted & you can change sites)'] = array(0, 1, 5, 20);
-
-    foreach ($rows as $feature => $details) {
-      echo '<tr>';
-      echo '<td>' . esc_html($feature) . '</td>';
-      foreach ($details as $tmp) {
-        echo '<td>';
-        if ($tmp === true) {
-          echo '<i class="dashicons dashicons-yes green tooltip" title="Feature is available"></i>';
-        } elseif ($tmp === false) {
-          echo '<i class="dashicons dashicons-no red tooltip" title="Feature is not available"></i>';
-        } else {
-          WP_Reset_Utility::wp_kses_wf($tmp);
-        }
-        echo '</td>';
-      } // foreach column
-      echo '</tr>';
-    } // foreach $rows
-
-    echo '<tr class="pricing"><td>Lifetime Price</td>';
-    echo '<td>free</td>';
-    echo '<td>one-time payment<br><del>&nbsp;$99&nbsp;</del> <b>$49</b><br><a href="' . esc_url($personal_lifetime) . '" class="button button-primary" target="_blank">BUY NOW</a></td>';
-    echo '<td>one-time payment<br><del>&nbsp;$159&nbsp;</del> <b>$59</b><br><a href="' . esc_url($team_lifetime) . '" class="button button-primary" target="_blank">BUY NOW</a></td>';
-    echo '<td>one-time payment<br><del>&nbsp;$399&nbsp;</del> <b>$199</b><br><a href="' . esc_url($agency_lifetime) . '" class="button button-primary" target="_blank">BUY NOW</a></td>';
-    echo '</tr>';
-    echo '</table>';
-
+    echo '<p>If you already have a PRO license, activate it below.</p>';
+    echo '<p class="textcenter"><a href="#" data-feature="purchase-pro" class="button-pro-feature button button-delete">Get PRO now</a></p>';
     echo '</div>';
     echo '</div>';
 
@@ -2187,7 +2144,7 @@ class WP_Reset
     echo '<div class="card-body">';
 
     echo '<p>License key is visible on the confirmation screen, right after purchasing. You can also find it in the confirmation email sent to the email address provided on purchase. Or use keys created with the <a href="https://dashboard.wpreset.com/licenses/" target="_blank">license manager</a>.</p>
-    <p>If you don\'t have a license - <a class="scrollto" href="#pro-pricing">purchase one now</a>. In case of problems with the license please <a href="' . esc_url($this->generate_web_link('pro-tab-license', '/contact/')) . '" target="_blank">contact support</a>.</p>';
+    <p>If you don\'t have a license - <a class="button-pro-feature" href="#" data-feature="purchase-pro2">purchase one now</a>. In case of problems with the license please <a href="' . esc_url($this->generate_web_link('pro-tab-license', '/contact/')) . '" target="_blank">contact support</a>.</p>';
 
     echo '<hr>';
     echo '<p><label for="wpr-license-key">License Key: </label><input class="regular-text" type="text" id="wpr-license-key" value="' . ($this->license->get_license('license_key') != 'keyless' ? esc_attr($this->license->get_license('license_key')) : '') . '" placeholder="12345678-12345678-12345678-12345678">';
@@ -2225,24 +2182,119 @@ class WP_Reset
       echo '&nbsp; &nbsp;<a href="#" data-text-wait="Activating. Please wait." class="button button-secondary" id="wpr-keyless-activation">Keyless Activation</a>';
     }
     echo '</p>';
-    echo '<p class="mb0"><small><i>By attempting to activate a license you agree to share the following data with <a target="_blank" href="https://www.webfactoryltd.com/">WebFactory Ltd</a>: license key, site URL, site title, site WP version, and WP Reset (free) version.</i></small>';
+    echo '<p class="mb0"><i>By attempting to activate a license you agree to share the following data with <a target="_blank" href="https://www.webfactoryltd.com/">WebFactory Ltd</a>: license key, site URL, site title, site WP version, site IP, and WP Reset plugin (free) version.</i>';
     echo '</p>';
 
     echo '</div>';
     echo '</div>'; // activate PRO
 
-    // todo: not done
-    echo '<div style="display: none;">';
-
-    echo '<div id="pro-feature-details-tool-nuclear-reset-example">';
-    echo '<span class="title">this is a title</span>';
-    echo '<span class="description">this is a description</span>';
-    echo '<span class="button">button</span>';
-    echo '<span class="footer">footer</span>';
-    echo '</div>';
-
-    echo '</div>';
+    WP_Reset_Utility::wp_kses_wf($this->pro_dialog());
   } // tab_pro
+
+
+  function pro_dialog()
+  {
+    $out = '';
+
+    $out .= '<div id="wpreset-pro-dialog" style="display: none;" title="WP Reset PRO"><span class="ui-helper-hidden-accessible"><input type="text"/></span>';
+
+    $out .= '<div class="center logo"><a href="https://wpreset.com/?ref=wpreset-free-pricing-table" target="_blank"><img src="' . $this->plugin_url . 'img/wp-reset-logo.png' . '" alt="WP Reset PRO" title="WP Reset PRO"></a><br>';
+
+    $out .= '<span>Limited PRO Offer - <b>all prices are LIFETIME</b>! Pay once &amp; use forever!</span>';
+    $out .= '</div>';
+
+    $out .= '<table id="wpreset-pro-table">';
+    $out .= '<tr>';
+    $out .= '<td class="center">Lifetime Personal License</td>';
+    $out .= '<td class="center">Lifetime Team License</td>';
+    $out .= '<td class="center">Lifetime Agency License</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr class="prices">';
+    $out .= '<td class="center"><del>$39 /year</del><br><span>$59</span> <b>/lifetime</b></td>';
+    $out .= '<td class="center"><del>$79 /year</del><br><span>$69</span> <b>/lifetime</b></td>';
+    $out .= '<td class="center"><del>$119 /year</del><br><span>$149</span> <b>/lifetime</b></td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span><b>1 Site License</b></td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span><b>5 Sites License</b></td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span><b>100 Sites License</b></td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>All Plugin Features &amp; Tools</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>All Plugin Features &amp; Tools</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>All Plugin Features &amp; Tools</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Lifetime Updates &amp; Support</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Lifetime Updates &amp; Support</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Lifetime Updates &amp; Support</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>2 GB WP Reset Cloud Storage</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>10 GB WP Reset Cloud Storage</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>100 GB WP Reset Cloud Storage</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Dropbox &amp; Google Drive support</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Dropbox &amp; Google Drive support</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Dropbox &amp; Google Drive support</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Plugins & Themes Collections</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Plugins & Themes Collections</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Plugins & Themes Collections</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Automatic Snapshots</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Automatic Snapshots</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Automatic Snapshots</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Emergency Recovery Script</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Emergency Recovery Script</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Emergency Recovery Script</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-no"></span>Licenses &amp; Sites Manager</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Licenses &amp; Sites Manager</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Licenses &amp; Sites Manager</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-no"></span>White-label Mode</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>White-label Mode</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>White-label Mode</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><span class="dashicons dashicons-no"></span>Full Plugin Rebranding</td>';
+    $out .= '<td><span class="dashicons dashicons-no"></span>Full Plugin Rebranding</td>';
+    $out .= '<td><span class="dashicons dashicons-yes"></span>Full Plugin Rebranding</td>';
+    $out .= '</tr>';
+
+    $out .= '<tr>';
+    $out .= '<td><a class="button button-buy" data-href-org="https://wpreset.com/buy2/?product=personal-free&ref=pricing-table" href="https://wpreset.com/buy2/?product=personal-free&ref=pricing-table" target="_blank">Lifetime License<br>$59 -&gt; BUY NOW</a>
+    <br>or <a class="button-buy" data-href-org="https://wpreset.com/buy2/?product=personal-monthly&ref=pricing-table" href="https://wpreset.com/buy2/?product=personal-monthly&ref=pricing-table" target="_blank">only $6.99 <small>/month</small></a></td>';
+    $out .= '<td><a class="button button-buy" data-href-org="https://wpreset.com/buy2/?product=team-free&ref=pricing-table" href="https://wpreset.com/buy2/?product=team-free&ref=pricing-table" target="_blank">Lifetime License<br>$69 -&gt; BUY NOW</a></td>';
+    $out .= '<td><a class="button button-buy" data-href-org="https://wpreset.com/buy2/?product=agency-free&ref=pricing-table" href="https://wpreset.com/buy2/?product=agency-free&ref=pricing-table" target="_blank">Lifetime License<br>$149 -&gt; BUY NOW</a></td>';
+    $out .= '</tr>';
+
+    $out .= '</table>';
+
+    $out .= '<div class="center footer"><b>100% No-Risk Money Back Guarantee!</b> If you don\'t like the plugin over the next 7 days, we will happily refund 100% of your money. No questions asked! Payments are processed by our merchant of records - <a href="https://paddle.com/" target="_blank">Paddle</a>.</div></div>';
+
+    return $out;
+  } // pro_dialog
 
 
   /**

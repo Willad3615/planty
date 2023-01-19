@@ -1,0 +1,182 @@
+/*
+Theme Name: theme enfant
+Description: Theme enfant créé dans le cadre du projet 6 chez OpenClassrooms
+Author: Willad3615 - Etudiant
+Author URI: www.planty.com
+Template: intentionally-blank
+Version: 0.1.0
+*/
+
+html{
+    margin: 0;
+    background-color: var(--color-white);
+}
+
+body{
+    --font-weight-400: 400;
+    --font-weight-700: 700;
+    --font-size-16: 16px;
+    --font-size-13: 13px;
+    --color-black: #000;
+    --color-button: #E0B9B4;
+    --color-white: #fff;
+    --page-width: 1440px;
+    margin: auto;
+}
+
+
+.container{
+    width: var(--page-width);
+    margin: auto;
+    font-family: 'syne';    
+}
+
+.elementor_content{
+    margin: 0;
+    background-color: var(--color-white);
+}
+
+header{
+    width: var(--page-width);
+    max-height: 80px;
+    display: flex;
+    background-color: var(--color-white);
+}
+
+footer{
+    width: var(--page-width);
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    background-color: var(--color-white);
+}
+
+
+a {
+    text-decoration: none;
+}
+
+.custom-logo{
+    max-width: 191.61px;
+    max-height: 18.87px;
+    margin: 31.02px 0px 30.02px 37px;
+    justify-content: flex-start;
+}
+
+ul {
+    width: 40%;
+    list-style-type : none;
+    display: flex;
+    justify-content: space-between;
+    margin: 32px auto;
+    
+}
+
+#menu-item-139{
+    font-weight: var(--font-weight-700);
+    font-size: var(--font-size-13);
+}
+
+.menu-admin{
+    font-weight: var(--font-weight-400);
+    font-size: var(--font-size-16);
+    
+}
+
+.menu-admin > a, #menu-item-139 > a{
+    color: var(--color-black);
+    width: 100%;
+}
+
+#commander{
+    width: 236px;
+    height: 80px;
+    border: none;
+    background-color: var(--color-button);
+    color: var(--color-white);
+    font-weight: var(--font-weight-700);
+    font-size: var(--font-size-16);
+}
+
+.menu_header{
+    width: 50%;
+    margin-left: 50%;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#menu-footer{
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    margin: 0px;
+}
+
+#menu-footer > .menu-admin > a{
+    display: none;
+}
+
+#menu-footer > #menu-item-143 > a{
+    color: var(--color-black);
+}
+
+#menu-header{
+    padding-left: 0px;
+    width: 200px;
+    height: 16px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 780px){
+    html{
+        margin: 0 !important;
+    }
+
+   /* body{
+        max-width: 780px;
+        margin: auto;
+    }*/
+
+    header, footer, .container{
+        width: 100%;
+    }
+
+    header{
+       padding-bottom: 225px;
+       flex-wrap: wrap;
+    }
+
+    .menu_header{
+        width: 100%;
+        margin: auto 0px;
+        justify-content: space-around;
+    }
+
+    #menu-header{
+        width: 90%;
+        padding-left: 0px;
+        justify-content: space-between;
+        height: 60px;
+    }
+
+    #commander{
+        margin-left: 0px;
+    }
+
+    @media screen and (min-width: 780px){
+        
+        
+        header{
+            padding-bottom: 0px;
+         }
+    }
+}
+
+
+
+
+

@@ -2,7 +2,7 @@
 /*
  * WP Reset
  * Utility & Helper functions
- * (c) WebFactory Ltd, 2015 - 2022
+ * (c) WebFactory Ltd, 2015 - 2023
  */
 
 // include only file

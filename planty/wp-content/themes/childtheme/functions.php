@@ -19,7 +19,7 @@ function theme_enqueue_styles() {
 }
 
 
-/*function theme_get_header($name=null, $args=array()){
+function theme_get_header($name=null, $args=array()){
     do_action('get_header', $name, $args);
     $template = array();
     $name      = (string) $name;
@@ -58,10 +58,10 @@ function plantytheme_menu_class(array $classes) : array{
 function plantytheme_link_attributes(array $attrs): array{
     $attrs[] = 'nav-link';
     return $attrs;
-}*/
+}
 
-//add_action('after_setup_theme', 'plantytheme_supports');
-//add_action( 'wp_enqueue_style', 'theme_enqueue_styles' );
-/*add_filter('nav_menu_class', 'plantytheme_menu_class');
-add_filter('nav_link_attributes', 'plantytheme_link_attributes');*/
+add_action('after_setup_theme', 'plantytheme_supports');
+add_action( 'wp_enqueue_style', 'theme_enqueue_styles' );
+add_filter('nav_menu_class', 'plantytheme_menu_class');
+add_filter('nav_link_attributes', 'plantytheme_link_attributes');
 
